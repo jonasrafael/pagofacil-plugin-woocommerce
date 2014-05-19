@@ -5,7 +5,7 @@
     Plugin URI: http://www.patsatech.com
     Description: WooCommerce Plugin for accepting payment through Pago Facil Direct Gateway.
     Author: IRMAcreative / PatSaTech
-    Version: 1.0
+    Version: 1.3
     Author URI: http://www.irmacreative.com
     */
 
@@ -451,7 +451,12 @@ class woocommerce_pagofacil_direct extends WC_Payment_Gateway {
                 {
                     if (strtolower($_SERVER["HTTP_CLIENT_IP"]) != "unknown")
                     {
-                        return $_SERVER["HTTP_CLIENT_IP"];
+                        $ip = $_SERVER["HTTP_CLIENT_IP"];
+						if (strpos($ip, ",") !== FALSE)
+						{
+							$ip = substr($ip, 0, strpos($ip, ","));
+						}
+                        return  trim($ip);
                     }
                 }
             }
@@ -462,7 +467,12 @@ class woocommerce_pagofacil_direct extends WC_Payment_Gateway {
                 {
                     if (strtolower($_SERVER["HTTP_X_FORWARDED_FOR"]) != "unknown")
                     {
-                        return $_SERVER["HTTP_X_FORWARDED_FOR"];
+                        $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+						if (strpos($ip, ",") !== FALSE)
+						{
+							$ip = substr($ip, 0, strpos($ip, ","));
+						}
+                        return  trim($ip);
                     }
                 }
             }
